@@ -3,13 +3,12 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Admin;
 
-class DatabaseSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
     public function run()
     {
-        $this->call([
-            AdminSeeder::class,
-        ]);
+        Admin::factory()->count(10)->create();
     }
 }
