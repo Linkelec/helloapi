@@ -10,7 +10,27 @@ class ProfileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['getActiveProfiles']);
+        $this->middleware('auth:sanctum')->except(['index']);
+    }
+
+    public function index(Request $request)
+    {
+        $profiles = Profile::where('status', 'active')->get([
+            'first_name', 
+            'last_name', 
+            'image',
+            'status',
+            'created_at',
+            'updated_at',
+        ]);
+
+        if ($request->user('sanctum')) {
+            return response()->json($profiles);
+        }
+
+        $profiles = $profiles->makeHidden('status');
+        
+        return response()->json($profiles);
     }
 
     public function store(Request $request)
@@ -44,12 +64,5 @@ class ProfileController extends Controller
         $profile->delete();
 
         return response()->json(null, 204);
-    }
-
-    public function getActiveProfiles()
-    {
-        $profiles = Profile::where('status', 'active')->get(['first_name', 'last_name', 'image', 'created_at', 'updated_at']);
-
-        return response()->json($profiles);
     }
 }

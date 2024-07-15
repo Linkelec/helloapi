@@ -14,4 +14,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('profiles/{profile}', [ProfileController::class, 'destroy']);
 });
 
-Route::get('profiles/active', [ProfileController::class, 'getActiveProfiles']);
+Route::get('profiles', [ProfileController::class, 'index']);
